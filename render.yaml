@@ -4,6 +4,4 @@ services:
     env: python
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: |
-      python main.py &
-      python -m http.server $PORT
+    startCommand: python main.py
