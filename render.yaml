@@ -1,7 +1,9 @@
 services:
   - type: web
-    name: stock-alerts-service
+    name: stock-alerts
     env: python
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: python main.py
+    startCommand: |
+      python main.py &
+      python -m http.server $PORT
