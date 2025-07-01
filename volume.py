@@ -1,26 +1,6 @@
 import yfinance as yf
-
-# def get_volumes_with_dates_for_ticker_dict(ticker_dict):
-#     """
-#  get a dic and return dic too
-#     """
-#     results = {}
-#
-#     for ticker in ticker_dict:
-#         try:
-#             stock = yf.Ticker(ticker)
-#             df = stock.history(period='10d', interval='1d')
-#             df = df.dropna(subset=['Volume'])
-#             volumes = df['Volume'].astype(int)
-#             dates = df.index.strftime('%Y-%m-%d')
-#             last_6 = list(zip(dates[-6:], volumes[-6:]))[::-1] #six last days
-#
-#             results[ticker] = last_6
-#         except Exception as e:
-#             print(f"ticker error {ticker}: {e}")
-#             results[ticker] = []
-#
-#     return results
+import time
+import random
 
 def get_volumes_with_dates_for_ticker_dict(ticker_dict):
     """
@@ -30,6 +10,7 @@ def get_volumes_with_dates_for_ticker_dict(ticker_dict):
 
     for ticker in ticker_dict:
         try:
+            print(f"📊 Fetching volume data for {ticker} at {time.strftime('%H:%M:%S')}")
             stock = yf.Ticker(ticker)
             df = stock.history(period='1y', interval='1d')  # שנה אחורה, יומי
             df = df.dropna(subset=['Volume'])
@@ -40,16 +21,18 @@ def get_volumes_with_dates_for_ticker_dict(ticker_dict):
 
             results[ticker] = yearly_data
         except Exception as e:
-            print(f"ticker error {ticker}: {e}")
+            print(f"❌ ticker error {ticker}: {e}")
             results[ticker] = []
+
+        time.sleep(random.uniform(1.0, 2.5))  # random waiting for protecting
 
     return results
 
 
 
-if __name__ == "__main__":
-    ticker_dict = {
-    'TSLA': 16,
-    'HIMS': 17.3
-}
-    print(get_volumes_with_dates_for_ticker_dict(ticker_dict))
+# if __name__ == "__main__":
+#     ticker_dict = {
+#     'TSLA': 16,
+#     'HIMS': 17.3
+# }
+#     print(get_volumes_with_dates_for_ticker_dict(ticker_dict))
